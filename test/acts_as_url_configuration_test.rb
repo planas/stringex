@@ -4,6 +4,7 @@ require 'stringex'
 
 class ActsAsUrlConfigurationTest < Test::Unit::TestCase
   def teardown
+    Stringex::StringExtensions.unconfigure!
     Stringex::ActsAsUrl.unconfigure!
   end
 
@@ -37,4 +38,15 @@ class ActsAsUrlConfigurationTest < Test::Unit::TestCase
       assert_equal acts_as_url_settings.settings.send(key), string_extensions_settings.settings.send(key)
     end
   end
+
+  def test_inherits_settings_from_string_extensions_current_settings
+    Stringex::StringExtensions.configure do |c|
+      c.replace_whitespace_with = "_"
+    end
+
+    string_extensions_settings = Stringex::Configuration::StringExtensions.new
+    acts_as_url_settings = Stringex::Configuration::ActsAsUrl.new
+
+    assert_equal acts_as_url_settings.settings.replace_whitespace_with, string_extensions_settings.settings.replace_whitespace_with    
+  end  
 end

@@ -66,6 +66,14 @@ module Stringex
         :seven_eighths => "seven eighths"
       }
 
+    def self.configure(&block)
+      Stringex::Configuration::StringExtensions.configure &block
+    end
+
+    def self.unconfigure!
+      Stringex::Configuration::StringExtensions.unconfigure!
+    end  
+
     # These methods are all included into the String class.
     module PublicInstanceMethods
       # Removes specified character from the beginning and/or end of the string and then performs
